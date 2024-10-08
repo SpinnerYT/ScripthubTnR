@@ -1,0 +1,4 @@
+--[[Slap battles--]]
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/main/anakinn"))()
+--[[Slap Royale--]]
+loadstring(game:HttpGet("https://raw.githubusercontent.com/BreApple/RobloxUI/main/SRscriptNew"))()

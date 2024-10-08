@@ -1,0 +1,2 @@
+---Be Sure to Subscribe and like the video if you can and join my discord server for tons of giveaways and stuff
+loadstring(game:HttpGet("https://raw.githubusercontent.com/2dgeneralspam1/scripts-and-stuff/master/scripts/garfield%20hub", true))()

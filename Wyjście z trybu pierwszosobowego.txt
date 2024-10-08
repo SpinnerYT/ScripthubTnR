@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SpinnerYT/Scripts/refs/heads/main/Wyjście%20z%20trybu%20pierwszosobowego.txt"))()
