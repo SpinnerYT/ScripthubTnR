@@ -1,0 +1,215 @@
+-- Tworzenie Partu
+local part = Instance.new("Part") -- Tworzenie nowego partu
+part.Size = Vector3.new(1604, 0.1, 634) -- Ustawienie rozmiaru partu (X, Y, Z)
+part.Position = Vector3.new(54, 1470, 90) -- Ustawienie pozycji środka partu
+part.Anchored = true -- Ustawienie partu jako anchored, aby nie spadał
+part.Parent = game.Workspace -- Dodanie partu do Workspace
+
+-- Teleportacja Gracza
+local player = game.Players.LocalPlayer
+
+local function teleportCharacter()
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+
+    if humanoidRootPart then
+        humanoidRootPart.CFrame = CFrame.new(18, 1499, 7) -- Teleportuj na nowe współrzędne
+    end
+end
+
+-- Pętla teleportacji
+spawn(function()
+    while true do
+        wait(0.001) -- Opóźnienie 1 milisekundy
+
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        
+        if humanoidRootPart then
+            local Y = humanoidRootPart.Position.Y
+            
+            if Y >= 1283 and Y <= 1470 then -- Zmiana zakresu Y
+                teleportCharacter() -- Teleportuj na nowe współrzędne
+            end
+        end
+    end
+end)
+
+-- Funkcje dla Graczy
+local function gplr(String)
+    local Found = {}
+    local strl = String:lower()
+    if strl == "all" then
+        for _,v in pairs(game:FindService("Players"):GetPlayers()) do
+            table.insert(Found, v)
+        end
+    elseif strl == "others" then
+        for _,v in pairs(game:FindService("Players"):GetPlayers()) do
+            if v.Name ~= player.Name then
+                table.insert(Found, v)
+            end
+        end 
+    elseif strl == "me" then
+        for _,v in pairs(game:FindService("Players"):GetPlayers()) do
+            if v.Name == player.Name then
+                table.insert(Found, v)
+            end
+        end 
+    else
+        for _,v in pairs(game:FindService("Players"):GetPlayers()) do
+            if v.Name:lower():sub(1, #String) == String:lower() then
+                table.insert(Found, v)
+            end
+        end 
+    end
+    return Found 
+end
+ 
+local function notif(str, dur)
+    game:FindService("StarterGui"):SetCore("SendNotification", {
+        Title = "yeet gui",
+        Text = str,
+        Icon = "rbxassetid://2005276185",
+        Duration = dur or 3
+    })
+end
+
+-- GUI
+local h = Instance.new("ScreenGui")
+local Main = Instance.new("ImageLabel")
+local Top = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local TextBox = Instance.new("TextBox")
+local TextButton = Instance.new("TextButton")
+
+h.Name = "h"
+h.Parent = game:GetService("CoreGui")
+h.ResetOnSpawn = false
+
+Main.Name = "Main"
+Main.Parent = h
+Main.Active = true
+Main.Draggable = true
+Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.1745, 0, 0.4596, 0)
+Main.Size = UDim2.new(0, 454, 0, 218)
+Main.Image = "rbxassetid://2005276185"
+
+Top.Name = "Top"
+Top.Parent = Main
+Top.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+Top.BorderSizePixel = 0
+Top.Size = UDim2.new(0, 454, 0, 44)
+
+Title.Name = "Title"
+Title.Parent = Top
+Title.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+Title.BorderSizePixel = 0
+Title.Position = UDim2.new(0, 0, 0.2955, 0)
+Title.Size = UDim2.new(0, 454, 0, 30)
+Title.Font = Enum.Font.SourceSans
+Title.Text = "FE Yeet Gui (trollface edition)"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.TextSize = 14
+Title.TextWrapped = true
+
+TextBox.Parent = Main
+TextBox.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+TextBox.BorderSizePixel = 0
+TextBox.Position = UDim2.new(0.0705, 0, 0.2706, 0)
+TextBox.Size = UDim2.new(0, 388, 0, 62)
+TextBox.Font = Enum.Font.SourceSans
+TextBox.PlaceholderText = "Who do I destroy (can be shortened)"
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextScaled = true
+TextBox.TextSize = 14
+TextBox.TextWrapped = true
+
+TextButton.Parent = Main
+TextButton.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.1035, 0, 0.5963, 0)
+TextButton.Size = UDim2.new(0, 359, 0, 50)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "Cheese 'em"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14
+TextButton.TextWrapped = true
+
+TextButton.MouseButton1Click:Connect(function()
+    local Target = gplr(TextBox.Text)
+    if Target[1] then
+        Target = Target[1]
+
+        local Thrust = Instance.new('BodyThrust', player.Character.HumanoidRootPart)
+        Thrust.Force = Vector3.new(9999, 9999, 9999)
+        Thrust.Name = "YeetForce"
+        repeat
+            player.Character.HumanoidRootPart.CFrame = Target.Character.HumanoidRootPart.CFrame
+            Thrust.Location = Target.Character.HumanoidRootPart.Position
+            game:FindService("RunService").Heartbeat:wait()
+        until not Target.Character:FindFirstChild("Head")
+    else
+        notif("Invalid player")
+    end
+end)
+
+-- Powiadomienie o załadowaniu
+notif("Loaded successfully! Created by scuba#0001", 5)
+
+-- Highlight ESP
+local FillColor = Color3.fromRGB(255, 255, 255)
+local DepthMode = "AlwaysOnTop"
+local FillTransparency = 0.5
+local OutlineColor = Color3.fromRGB(255, 255, 255)
+local OutlineTransparency = 0.5
+local CoreGui = game:FindService("CoreGui")
+local Players = game:FindService("Players")
+local connections = {}
+
+local Storage = Instance.new("Folder")
+Storage.Parent = CoreGui
+Storage.Name = "Highlight_Storage"
+
+local function Highlight(plr)
+    local Highlight = Instance.new("Highlight")
+    Highlight.Name = plr.Name
+    Highlight.FillColor = FillColor
+    Highlight.DepthMode = DepthMode
+    Highlight.FillTransparency = FillTransparency
+    Highlight.OutlineColor = OutlineColor
+    Highlight.OutlineTransparency = OutlineTransparency
+    Highlight.Parent = Storage
+    
+    local plrchar = plr.Character
+    if plrchar then
+        Highlight.Adornee = plrchar
+    end
+    
+    connections[plr] = plr.CharacterAdded:Connect(function(char)
+        Highlight.Adornee = char
+    end)
+end
+
+Players.PlayerAdded:Connect(Highlight)
+for _,v in next, Players:GetPlayers() do
+    Highlight(v)
+end
+
+Players.PlayerRemoving:Connect(function(plr)
+    local plrname = plr.Name
+    if Storage[plrname] then
+        Storage[plrname]:Destroy()
+    end
+    if connections[plr] then
+        connections[plr]:Disconnect()
+    end
+end)
+
+-- Ładowanie dodatkowych skryptów
+loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
