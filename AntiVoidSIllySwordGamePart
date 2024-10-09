@@ -1,5 +1,5 @@
 local part = Instance.new("Part") -- Tworzenie nowego partu
-part.Size = Vector3.new(1604, 16, 634) -- Ustawienie rozmiaru partu (X, Y, Z)
+part.Size = Vector3.new(1604, 0.1, 634) -- Ustawienie rozmiaru partu (X, Y, Z)
 part.Position = Vector3.new(54, 1474, 90) -- Ustawienie pozycji środka partu
 part.Anchored = true -- Ustawienie partu jako anchored, aby nie spadał
 part.Parent = game.Workspace -- Dodanie partu do Workspace
