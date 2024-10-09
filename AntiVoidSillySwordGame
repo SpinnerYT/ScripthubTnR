@@ -1,0 +1,26 @@
+local player = game.Players.LocalPlayer
+
+-- Funkcja do teleportacji
+local function teleportCharacter()
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    
+    if humanoidRootPart then
+        humanoidRootPart.CFrame = CFrame.new(18, 1499, 7) -- Teleportuj na nowe współrzędne
+    end
+end
+
+while true do
+    wait(0.001) -- Opóźnienie 1 milisekundy
+
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    
+    if humanoidRootPart then
+        local Y = humanoidRootPart.Position.Y
+        
+        if Y >= 1283 and Y <= 1470 then -- Zmiana zakresu Y
+            teleportCharacter() -- Teleportuj na nowe współrzędne
+        end
+    end
+end
